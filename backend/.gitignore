@@ -1,0 +1,12 @@
+# Build
+target/
+
+# H2 Database
+data/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
