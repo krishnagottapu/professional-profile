@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { WORK_HISTORY, EDUCATION } from "@/lib/data/experience";
-import { TimelineEntry } from "@/components/experience/TimelineEntry";
-import { EducationEntry } from "@/components/experience/EducationEntry";
-import { getExperienceLabel } from "@/lib/utils/experience";
+import { VerticalTimeline, AnimatedCounter } from "@/components/experience/HorizontalTimeline";
+import type { TimelineItem } from "@/components/experience/HorizontalTimeline";
+import { getYearsOfExperience } from "@/lib/utils/experience";
 
 export const metadata: Metadata = {
   title: "Experience",
@@ -10,9 +10,44 @@ export const metadata: Metadata = {
     "Professional experience timeline — building enterprise Java systems, AI integrations, and full-stack web applications.",
 };
 
+function parseYear(period: string, position: "start" | "end"): number {
+  if (position === "end" && period.toLowerCase().includes("present")) {
+    return new Date().getFullYear();
+  }
+  const matches = period.match(/(\d{4})/g);
+  if (!matches) return 2018;
+  return position === "start"
+    ? parseInt(matches[0], 10)
+    : parseInt(matches[matches.length - 1], 10);
+}
+
 export default function ExperiencePage() {
+  // Build unified timeline items (education + work), sorted by start year
+  const timelineItems: TimelineItem[] = [
+    ...EDUCATION.map((ed): TimelineItem => ({
+      type: "education",
+      title: ed.degree,
+      subtitle: ed.institution,
+      period: ed.year,
+      startYear: ed.degree.includes("BTech") ? 2012 : 2016,
+      endYear: parseInt(ed.year, 10),
+    })),
+    ...WORK_HISTORY.map((work): TimelineItem => ({
+      type: "work",
+      title: work.role,
+      subtitle: work.company,
+      period: work.period,
+      location: work.location,
+      current: work.current,
+      bullets: work.bullets,
+      techTags: work.techTags,
+      startYear: parseYear(work.period, "start"),
+      endYear: parseYear(work.period, "end"),
+    })),
+  ].sort((a, b) => b.startYear - a.startYear);
+
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
       {/* Page header */}
       <header className="text-center mb-16">
         <h1
@@ -22,55 +57,12 @@ export default function ExperiencePage() {
           Experience
         </h1>
         <p style={{ color: "var(--secondary)" }}>
-          {getExperienceLabel()} years building enterprise software and developer tooling
+          <AnimatedCounter target={getYearsOfExperience()} /> years building enterprise software and developer tooling
         </p>
       </header>
 
-      {/* Work history timeline */}
-      <section aria-label="Work history">
-        <div className="relative">
-          {/* Vertical timeline line — centered on desktop, left-aligned on mobile */}
-          <div
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-            style={{ backgroundColor: "var(--border)" }}
-            aria-hidden="true"
-          />
-
-          {WORK_HISTORY.map((entry, i) => (
-            <TimelineEntry
-              key={entry.company}
-              company={entry.company}
-              role={entry.role}
-              period={entry.period}
-              location={entry.location}
-              current={entry.current}
-              bullets={entry.bullets}
-              techTags={entry.techTags}
-              index={i}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Education section */}
-      <section className="mt-20" aria-label="Education">
-        <h2
-          className="text-2xl font-bold mb-8 text-center"
-          style={{ color: "var(--foreground)" }}
-        >
-          Education
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          {EDUCATION.map((ed) => (
-            <EducationEntry
-              key={ed.degree}
-              degree={ed.degree}
-              institution={ed.institution}
-              year={ed.year}
-            />
-          ))}
-        </div>
-      </section>
+      {/* Vertical timeline with year selector */}
+      <VerticalTimeline items={timelineItems} />
     </main>
   );
 }

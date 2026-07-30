@@ -44,7 +44,7 @@ export const WORK_HISTORY: WorkEntry[] = [
     company: "CenturyLink INC.",
     role: "Java Full Stack Developer",
     period: "July 2018 – July 2020",
-    location: "Remote",
+    location: "Denver, CO",
     current: false,
     bullets: [
       "Migrated a monolithic VoIP order processing application to a microservices architecture using Spring Boot.",
