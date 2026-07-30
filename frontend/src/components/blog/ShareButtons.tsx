@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function ShareButtons({ title, slug, excerpt }: Props) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = typeof window !== "undefined" ? window.location.origin : "https://saikrishnagottapu.vercel.app";
   const postUrl = `${siteUrl}/blog/${slug}`;
 
   const shareText = excerpt
