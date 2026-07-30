@@ -1,0 +1,4 @@
+
+> Build error occurred
+Error: ENOENT: no such file or directory, open 'C:\github\professional-profile\frontend\.next\static\PfuZqzGyNifJWPzUxxi_c\_buildManifest.js.tmp.grga6dfd6tg'
+    at [3mignore-listed frames[23m

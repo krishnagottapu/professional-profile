@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+Disallow: /api
+
+# Host
+Host: https://saikrishnagottapu.com
+
+# Sitemaps
+Sitemap: https://saikrishnagottapu.com/sitemap.xml
