@@ -21,6 +21,17 @@ spring:
 server:
   port: ${PORT:8080}
 
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+          starttls:
+            enabled: false
+
 management:
   health:
     mail:
