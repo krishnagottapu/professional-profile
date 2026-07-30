@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 interface Props {
   title: string;
@@ -8,13 +8,16 @@ interface Props {
   excerpt?: string;
 }
 
+function getOrigin() {
+  return typeof window !== "undefined" ? window.location.origin : "https://saikrishnagottapu.vercel.app";
+}
+
+function subscribe() {
+  return () => {};
+}
+
 export function ShareButtons({ title, slug, excerpt }: Props) {
-  const [siteUrl, setSiteUrl] = useState("https://saikrishnagottapu.vercel.app");
-
-  useEffect(() => {
-    setSiteUrl(window.location.origin);
-  }, []);
-
+  const siteUrl = useSyncExternalStore(subscribe, getOrigin, () => "https://saikrishnagottapu.vercel.app");
   const postUrl = `${siteUrl}/blog/${slug}`;
 
   const shareText = excerpt
