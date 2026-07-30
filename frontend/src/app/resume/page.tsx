@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Resume | Sai Krishna Gottapu",
     description:
-      "Sr. Software Engineer with 7+ years of experience in enterprise applications and AI-powered tooling.",
+      "Sr. Software Engineer specializing in enterprise applications and AI-powered tooling.",
   },
 };
 

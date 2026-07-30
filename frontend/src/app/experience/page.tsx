@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { WORK_HISTORY, EDUCATION } from "@/lib/data/experience";
 import { TimelineEntry } from "@/components/experience/TimelineEntry";
 import { EducationEntry } from "@/components/experience/EducationEntry";
+import { getExperienceLabel } from "@/lib/utils/experience";
 
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Professional experience timeline — 7+ years building enterprise Java systems, AI integrations, and full-stack web applications.",
+    "Professional experience timeline — building enterprise Java systems, AI integrations, and full-stack web applications.",
 };
 
 export default function ExperiencePage() {
@@ -21,7 +22,7 @@ export default function ExperiencePage() {
           Experience
         </h1>
         <p style={{ color: "var(--secondary)" }}>
-          7+ years building enterprise software and developer tooling
+          {getExperienceLabel()} years building enterprise software and developer tooling
         </p>
       </header>
 

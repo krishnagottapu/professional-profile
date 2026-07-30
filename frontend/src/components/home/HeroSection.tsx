@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { TypingAnimation } from "@/components/home/TypingAnimation";
+import { getExperienceLabel } from "@/lib/utils/experience";
 
 const ROLES = [
   "Sr. Software Engineer",
@@ -70,7 +71,7 @@ export function HeroSection() {
           className="text-lg max-w-2xl mb-8 leading-relaxed"
           style={{ color: "var(--secondary)" }}
         >
-          Sr. Software Engineer with 7+ years building enterprise Java systems,
+          Sr. Software Engineer with {getExperienceLabel()} years building enterprise Java systems,
           full-stack web applications, and AI integrations. Specializing in
           Spring Boot, Atlassian plugins, and modern cloud-native architectures.
         </motion.p>

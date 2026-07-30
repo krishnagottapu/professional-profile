@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Sai Krishna Gottapu",
   },
   description:
-    "Senior Software Engineer with 7+ years in Java, Spring Boot, and full-stack development. Available for new opportunities.",
+    "Senior Software Engineer specializing in Java, Spring Boot, and full-stack development. Available for new opportunities.",
   authors: [{ name: "Sai Krishna Gottapu" }],
   keywords: [
     "software engineer",

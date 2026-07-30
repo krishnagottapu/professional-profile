@@ -1,6 +1,8 @@
+import { getExperienceLabel } from "@/lib/utils/experience";
+
 export const RESUME_SUMMARY = {
   headline: "Sr. Software Engineer — Java, Spring Boot & AI Integration",
-  summary: `Senior Software Engineer with 7+ years of experience building enterprise-grade applications,
+  summary: `Senior Software Engineer with ${getExperienceLabel()} years of experience building enterprise-grade applications,
 developer tooling, and AI-powered integrations. Currently at Charter Communications as Software Engineer V,
 delivering Jira/Confluence plugins, MCP servers, and automation frameworks. Previously at CenturyLink
 migrating monolithic VoIP systems to microservices with Kafka and Kubernetes. MS Computer Science from
