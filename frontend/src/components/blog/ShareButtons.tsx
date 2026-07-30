@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   title: string;
@@ -9,7 +9,12 @@ interface Props {
 }
 
 export function ShareButtons({ title, slug, excerpt }: Props) {
-  const siteUrl = typeof window !== "undefined" ? window.location.origin : "https://saikrishnagottapu.vercel.app";
+  const [siteUrl, setSiteUrl] = useState("https://saikrishnagottapu.vercel.app");
+
+  useEffect(() => {
+    setSiteUrl(window.location.origin);
+  }, []);
+
   const postUrl = `${siteUrl}/blog/${slug}`;
 
   const shareText = excerpt
