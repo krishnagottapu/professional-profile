@@ -276,17 +276,32 @@ For the frontend:
 
 | Bug | Fix applied |
 |-----|------------|
-| Login redirects back to login page | `CorsConfig` refactored to expose `CorsConfigurationSource` bean so Spring Security CORS filter correctly sets `Access-Control-Allow-Credentials: true` on responses |
+| Login redirects back to login page | Chrome blocks `SameSite=None` cookies over plain HTTP. Fixed by adding a Next.js Route Handler proxy at `src/app/api/[...path]/route.ts` that forwards all `/api/*` requests server-side to `localhost:8080`, strips `SameSite` and `Secure` cookie attributes on the way back, and stores the session cookie on `localhost:3000`. Browser never makes cross-origin calls. |
 | `PATCH` requests failing (reorder, read toggle) | Added `PATCH` to allowed methods in `CorsConfig` |
 | Docker `NEXT_PUBLIC_API_URL` baked as `localhost` | Removed `ENV NEXT_PUBLIC_API_URL` from Dockerfile build stage — value is now set at CI/CD build time or falls back to `localhost:8080` default |
+
+## API Proxy Architecture (Local Dev)
+
+All frontend API calls go through a Next.js Route Handler proxy instead of directly to the backend:
+
+```
+Browser (localhost:3000)
+  → GET/POST /api/**
+  → src/app/api/[...path]/route.ts  (Next.js server-side)
+  → http://localhost:8080/api/**     (Spring Boot backend)
+  → Response + Set-Cookie forwarded back, SameSite/Secure stripped
+  → Cookie stored on localhost:3000 ✓
+```
+
+This means `client.ts` uses an empty `BASE_URL` (`""`), so all API calls are relative paths on `localhost:3000`. The proxy handles forwarding cookies to the backend transparently.
 
 ---
 
 ## What Still Needs Manual Attention
 
-- **Resume PDF** — Replace `frontend/public/resume.pdf` with your actual PDF. The placeholder is a text file.
+- **Resume PDF** — `frontend/public/saikrishnagottapu_updated_resume.pdf` is in place ✓
 - **Admin password** — Change before any public deployment (`ADMIN_PASSWORD` env var).
-- **LinkedIn URL** — Currently `linkedin.com/in/krishnagottapu` in Footer and Contact page — verify this is correct.
+- **LinkedIn URL** — Updated to `www.linkedin.com/in/sai-krishna-gottapu-0710b73b8` ✓
 - **GitHub username** — `krishnagottapu` used in GitHub proxy — verify it matches your actual GitHub username.
 - **SMTP config** — Email notifications are configured but SMTP credentials are empty by default. Set `MAIL_HOST`, `MAIL_USERNAME`, `MAIL_PASSWORD` env vars to enable email on contact form submission. The contact form saves to DB regardless — email is best-effort.
 - **`SITE_URL`** — Set this in `next-sitemap.config.js` before deploying to production so sitemap URLs are correct.

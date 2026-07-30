@@ -164,6 +164,62 @@ frontend/public/resume.pdf
 
 It will be served at `/resume.pdf` and linked from the Resume and Contact pages.
 
+## Deployment (Vercel + Render)
+
+The project uses a split deployment: **Vercel** for the Next.js frontend and **Render** for the Spring Boot backend. Both auto-deploy from the `main` branch via native GitHub integrations.
+
+### CI/CD Pipeline
+
+GitHub Actions runs on every push/PR to `main`:
+- **Frontend CI** (`.github/workflows/ci-frontend.yml`): lint, test, build
+- **Backend CI** (`.github/workflows/ci-backend.yml`): test, package
+
+Deployment is handled by Vercel and Render directly (not by GitHub Actions).
+
+### Backend — Render Setup
+
+1. Create a free account at [render.com](https://render.com)
+2. Click **New → Blueprint** and connect your GitHub repo
+3. Render detects `render.yaml` and creates the service automatically
+4. Set these environment variables in the Render dashboard:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ADMIN_USERNAME` | Yes | Admin login username |
+| `ADMIN_PASSWORD` | Yes | Admin login password (change from default) |
+| `ADMIN_EMAIL` | Yes | Contact form notification recipient |
+| `CORS_ALLOWED_ORIGINS` | Yes | Your Vercel URL (e.g., `https://your-app.vercel.app`) |
+| `MAIL_HOST` | No | SMTP host for contact form emails |
+| `MAIL_PORT` | No | SMTP port |
+| `MAIL_USERNAME` | No | SMTP username |
+| `MAIL_PASSWORD` | No | SMTP password |
+
+The backend uses H2 in-memory with seeded data (`data.sql`) in production. Data resets on each deploy, which is expected for a portfolio site.
+
+**Note:** Render free tier spins down after 15 minutes of inactivity. First request after idle takes ~30-60 seconds.
+
+### Frontend — Vercel Setup
+
+1. Create a free account at [vercel.com](https://vercel.com)
+2. Click **Import Project** and connect your GitHub repo
+3. Set the **Root Directory** to `frontend`
+4. Set these environment variables in the Vercel dashboard:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `BACKEND_URL` | Yes | Your Render backend URL (e.g., `https://portfolio-backend.onrender.com`) |
+| `NEXT_PUBLIC_API_URL` | Yes | Same as BACKEND_URL (used for SSR calls) |
+
+5. Deploy. Vercel auto-detects Next.js and uses `vercel.json` settings.
+
+### Post-Deploy Checklist
+
+- [ ] Set `CORS_ALLOWED_ORIGINS` on Render to your Vercel domain
+- [ ] Set `BACKEND_URL` and `NEXT_PUBLIC_API_URL` on Vercel to your Render URL
+- [ ] Change `ADMIN_PASSWORD` from default
+- [ ] Test the site — visit the frontend and confirm skills/blog load from the backend
+- [ ] (Optional) Add a custom domain in Vercel settings
+
 ## Security Notes for Deployment
 
 - Change `ADMIN_PASSWORD` from the default before any public deployment
