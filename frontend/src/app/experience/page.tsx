@@ -29,7 +29,7 @@ export default function ExperiencePage() {
       title: ed.degree,
       subtitle: ed.institution,
       period: ed.year,
-      startYear: ed.degree.includes("BTech") ? 2012 : 2016,
+      startYear: ed.degree.includes("Bachelors") ? 2012 : 2016,
       endYear: parseInt(ed.year, 10),
     })),
     ...WORK_HISTORY.map((work): TimelineItem => ({

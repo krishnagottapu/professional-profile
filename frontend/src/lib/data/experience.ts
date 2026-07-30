@@ -67,12 +67,12 @@ export const WORK_HISTORY: WorkEntry[] = [
 
 export const EDUCATION: EducationEntry[] = [
   {
-    degree: "MS Computer Science",
+    degree: "Masters in Computer Science",
     institution: "University of Central Missouri, MO",
     year: "2018",
   },
   {
-    degree: "BTech Computer Science & Engineering",
+    degree: "Bachelors in Technology, Computer Science & Engineering",
     institution: "JNTU Kakinada",
     year: "2016",
   },

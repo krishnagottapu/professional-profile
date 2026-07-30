@@ -1,8 +1,12 @@
 # Project Context — Professional Career Website
 
 **Owner:** Sai Krishna Gottapu  
-**Last updated:** 2026-07-27  
-**Status:** Implementation complete — all tasks approved. Ready for local dev and deployment.
+**Last updated:** 2026-07-30  
+**Status:** Deployed to production. Frontend on Vercel, Backend on Render.
+
+**Live URLs:**
+- Frontend: https://saikrishnagottapu.vercel.app
+- Backend: https://portfolio-backend-j4xp.onrender.com
 
 ---
 
@@ -12,8 +16,10 @@ A full-stack personal portfolio / career website.
 
 - **Frontend:** Next.js 14+ (App Router), TypeScript, Tailwind CSS, Framer Motion — runs on `http://localhost:3000`
 - **Backend:** Spring Boot 3.4.2, Java 21, Spring Security, H2 — runs on `http://localhost:8080`
-- **Database:** H2 embedded file-based at `./backend/data/portfolio`
+- **Database:** H2 embedded file-based (local) / H2 in-memory (production, seeded from `data.sql`)
 - **Auth:** Session-based, single admin account (credentials via env vars)
+- **Email:** Resend HTTP API (production) / Spring Mail SMTP (local)
+- **CI/CD:** GitHub Actions (lint/test/build) + Vercel (frontend deploy) + Render (backend deploy)
 
 ---
 

@@ -17,7 +17,7 @@ University of Central Missouri.`,
 };
 
 export const QUICK_STATS = [
-  { label: "Years Experience", value: "7+" },
+  { label: "Years Experience", value: getExperienceLabel() },
   { label: "Technologies", value: "30+" },
   { label: "Companies", value: "2" },
 ];
