@@ -2,8 +2,9 @@ services:
   - type: web
     name: portfolio-backend
     runtime: docker
-    dockerfilePath: ./Dockerfile.backend
+    dockerfilePath: ./Dockerfile
     dockerContext: .
+    rootDir: backend
     branch: main
     plan: free
     healthCheckPath: /actuator/health
