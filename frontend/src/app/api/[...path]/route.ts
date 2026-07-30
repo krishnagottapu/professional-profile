@@ -46,8 +46,7 @@ async function proxy(req: NextRequest, params: { path: string[] }) {
   const resCt = backendRes.headers.get("content-type");
   if (resCt) res.headers.set("content-type", resCt);
 
-  // Forward ALL Set-Cookie headers, stripping SameSite=None and Secure
-  // so they work over plain HTTP on localhost
+  // Forward ALL Set-Cookie headers, adjusting attributes for production HTTPS
   const rawHeaders = backendRes.headers as unknown as {
     getSetCookie?: () => string[];
     raw?: () => Record<string, string[]>;
@@ -62,9 +61,12 @@ async function proxy(req: NextRequest, params: { path: string[] }) {
       : [];
 
   for (const sc of setCookies) {
-    const cleaned = sc
+    let cleaned = sc
       .replace(/;\s*SameSite=[^;]*/gi, "")
-      .replace(/;\s*Secure(?=;|$)/gi, "");
+      .replace(/;\s*Secure(?=;|$)/gi, "")
+      .replace(/;\s*Domain=[^;]*/gi, "");
+    // Add production-safe attributes
+    cleaned += "; Path=/; HttpOnly; SameSite=Lax; Secure";
     res.headers.append("set-cookie", cleaned);
   }
 
