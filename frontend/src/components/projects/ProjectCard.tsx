@@ -20,7 +20,7 @@ export function ProjectCard(props: ProjectCardProps) {
   const tags =
     props.type === "manual"
       ? props.project.techTags
-      : ([props.repo.language, ...props.repo.topics].filter(Boolean) as string[]);
+      : ([props.repo.language, ...(props.repo.topics ?? [])].filter(Boolean) as string[]);
   const githubUrl =
     props.type === "manual" ? props.project.githubUrl : props.repo.htmlUrl;
   const liveUrl = props.type === "manual" ? props.project.liveUrl : null;
