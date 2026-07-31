@@ -2,13 +2,13 @@
 import { useApi } from "@/hooks/useApi";
 import { getSkills } from "@/lib/api/skills";
 import { SkillCard } from "@/components/skills/SkillCard";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { DevLoader } from "@/components/ui/DevLoader";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 export default function SkillsPage() {
   const { data: categories, loading, error } = useApi(getSkills);
 
-  if (loading) return <div className="flex justify-center py-20"><LoadingSpinner /></div>;
+  if (loading) return <DevLoader />;
   if (error) return <div className="text-center py-20 text-red-500">Failed to load skills: {error}</div>;
   if (!categories?.length) return <div className="text-center py-20">No skills found.</div>;
 

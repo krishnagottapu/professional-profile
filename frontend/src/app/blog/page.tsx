@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getBlogPosts } from "@/lib/api/blog";
 import { BlogCard } from "@/components/blog/BlogCard";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { DevLoader } from "@/components/ui/DevLoader";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import type { BlogPost, PaginatedResponse } from "@/types/blog";
 
@@ -76,9 +76,7 @@ export default function BlogPage() {
 
       <ErrorBoundary>
         {state.loading && page === 0 ? (
-          <div className="flex justify-center py-20">
-            <LoadingSpinner />
-          </div>
+          <DevLoader />
         ) : state.error && state.posts.length === 0 ? (
           <p
             className="text-center py-20 text-lg"

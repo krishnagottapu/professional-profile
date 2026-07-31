@@ -5,7 +5,7 @@ import { getProjects } from "@/lib/api/projects";
 import { getGitHubRepos } from "@/lib/api/github";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { TechFilterTabs } from "@/components/projects/TechFilterTabs";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { DevLoader } from "@/components/ui/DevLoader";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 export default function ProjectsPage() {
@@ -43,11 +43,7 @@ export default function ProjectsPage() {
   const regularProjects = filteredProjects.filter((p) => !p.featured);
 
   if (projLoading && repoLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <LoadingSpinner />
-      </div>
-    );
+    return <DevLoader />;
   }
 
   return (
@@ -105,7 +101,7 @@ export default function ProjectsPage() {
               GitHub repos temporarily unavailable.
             </p>
           ) : repoLoading ? (
-            <LoadingSpinner />
+            <DevLoader />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredRepos.map((r) => (
