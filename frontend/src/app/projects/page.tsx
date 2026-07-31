@@ -19,23 +19,23 @@ export default function ProjectsPage() {
 
   const allTags = useMemo(() => {
     const tags = new Set<string>();
-    (projects ?? []).forEach((p) => p.techTags.forEach((t) => tags.add(t)));
+    (projects ?? []).forEach((p) => (p.techTags ?? []).forEach((t) => tags.add(t)));
     (repos ?? []).forEach((r) => {
       if (r.language) tags.add(r.language);
-      r.topics.forEach((t) => tags.add(t));
+      (r.topics ?? []).forEach((t) => tags.add(t));
     });
     return Array.from(tags).sort();
   }, [projects, repos]);
 
   const filteredProjects = useMemo(() => {
     if (selectedTag === "All") return projects ?? [];
-    return (projects ?? []).filter((p) => p.techTags.includes(selectedTag));
+    return (projects ?? []).filter((p) => (p.techTags ?? []).includes(selectedTag));
   }, [projects, selectedTag]);
 
   const filteredRepos = useMemo(() => {
     if (selectedTag === "All") return repos ?? [];
     return (repos ?? []).filter(
-      (r) => r.language === selectedTag || r.topics.includes(selectedTag)
+      (r) => r.language === selectedTag || (r.topics ?? []).includes(selectedTag)
     );
   }, [repos, selectedTag]);
 
